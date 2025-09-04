@@ -9,9 +9,22 @@ import SwiftUI
 
 @main
 struct screentime_lboardApp: App {
+    @StateObject private var authManager = AuthManager()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Group {
+                if authManager.isAuthenticated {
+                    ContentView()
+                        .environmentObject(authManager)
+                } else {
+                    AuthView()
+                        .environmentObject(authManager)
+                }
+            }
+            .onAppear {
+                print("App started. Auth URL: https://dhwgtpetoqvlwfixrfjz.supabase.co")
+            }
         }
     }
 }
